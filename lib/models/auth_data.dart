@@ -18,6 +18,6 @@ class AuthData {
   }
 
   void toggleMode() {
-    _mode = _mode == AuthMode.SIGNUP ? AuthMode.SIGNUP : AuthMode.LOGIN;
+    _mode = _mode == AuthMode.LOGIN ? AuthMode.SIGNUP : AuthMode.LOGIN;
   }
 }
