@@ -2,6 +2,7 @@ import 'package:chat/models/auth_data.dart';
 import 'package:chat/widgets/auth_form.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -34,9 +35,24 @@ class _AuthScreenState extends State<AuthScreen> {
           password: authData.password
         );
 
+        // aqui eu pego a referencia do bucket padrao do firebase storage
+        // bucket é um espaço de armazenamento (posso criar pastas, etc)
+        // o nome da pasta nesse caso sera o user_image
+        // o nome do arquivo é o id do usuario .jpg
+        final ref = FirebaseStorage.instance
+          .ref()
+          .child('user_image')
+          .child(authResult.user.uid + '.jpg');
+
+        // somente quando ele terminar o upload da imagem que ele vai prosseguir com o cadastro  
+        await ref.putFile(authData.image).onComplete;
+
+        final url = await ref.getDownloadURL();
+
         final userData = {
           'name': authData.name,
           'amail': authData.email,
+          'imageUrl': url,
         };
 
         // aqui esta persistindo tambem o nome do usuario 
@@ -69,27 +85,29 @@ class _AuthScreenState extends State<AuthScreen> {
       backgroundColor: Theme.of(context).primaryColor,
       // body: AuthForm(_handleSubmit),
       body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Stack(
-              children: [
-                AuthForm(_handleSubmit),
-                if(_isLoading)
-                  Positioned.fill(
-                    child: Container(
-                      margin: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: Color.fromRGBO(0, 0, 0, 0.5),
-                      ),
-                      child: Center(
-                        child: CircularProgressIndicator(),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Stack(
+                children: [
+                  AuthForm(_handleSubmit),
+                  if(_isLoading)
+                    Positioned.fill(
+                      child: Container(
+                        margin: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(0, 0, 0, 0.5),
+                        ),
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
                       ),
                     ),
-                  ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
