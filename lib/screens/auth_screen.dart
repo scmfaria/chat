@@ -22,7 +22,7 @@ class _AuthScreenState extends State<AuthScreen> {
       _isLoading = true;
     });
 
-    AuthResult authResult; 
+    UserCredential authResult;
     try {
       if(authData.isLogin) {
         authResult = await _auth.signInWithEmailAndPassword(
@@ -56,10 +56,10 @@ class _AuthScreenState extends State<AuthScreen> {
         };
 
         // aqui esta persistindo tambem o nome do usuario 
-        await Firestore.instance
+        await FirebaseFirestore.instance
           .collection('users') // criando um novo document do tipo users
-          .document(authResult.user.uid) // pega o id do usuario que esta no Firebase
-          .setData(userData);
+          .doc(authResult.user.uid) // pega o id do usuario que esta no Firebase
+          .set(userData);
       }
     } on PlatformException catch(error) {
       final msg = error.message ?? 'Ocorreu um erro, verifique suas credenciais!!';

@@ -8,39 +8,31 @@ import 'message_bubble.dart';
 class Messages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: FirebaseAuth.instance.currentUser(),
-      builder: (ctx, snapshot) {
-        if(snapshot.connectionState == ConnectionState.waiting) {
+    final User user = FirebaseAuth.instance.currentUser;
+
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance.collection('chat')
+          .orderBy('createdAt', descending: true).snapshots(),
+      builder: (ctx, chatSnapshot) {
+        if(chatSnapshot.connectionState == ConnectionState.waiting) {
           return Center(
-            child: CircularProgressIndicator()
+            child: CircularProgressIndicator(),
           );
         }
 
-        return StreamBuilder(
-          stream: Firestore.instance.collection('chat')
-              .orderBy('createdAt', descending: true).snapshots(),
-          builder: (ctx, chatSnapshot) {
-            if(chatSnapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
-            final chatDocs = chatSnapshot.data.documents;
-            return ListView.builder(
-              reverse: true,
-              itemCount: chatDocs.length,
-              itemBuilder: (ctx, i) => MessageBubble(
-                chatDocs[i]['text'],
-                chatDocs[i]['userName'],
-                chatDocs[i]['userId'] == snapshot.data.uid ? true : false,
-                key: ValueKey(chatDocs[i].documentID),
-              ),
-            );
-          },
+        final chatDocs = chatSnapshot.data.documents;
+        return ListView.builder(
+          reverse: true,
+          itemCount: chatDocs.length,
+          itemBuilder: (ctx, i) => MessageBubble(
+            chatDocs[i].get('text'),
+            chatDocs[i].get('userName'),
+            chatDocs[i].get('userImage'),
+            chatDocs[i].get('userId') == user.uid ? true : false,
+            key: ValueKey(chatDocs[i].documentID),
+          ),
         );
-      }
+      },
     );
   }
 }

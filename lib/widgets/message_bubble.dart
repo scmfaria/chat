@@ -3,49 +3,66 @@ import 'package:flutter/material.dart';
 
 class MessageBubble extends StatelessWidget {
   final String message;
-  final bool belongToMe;
+  final bool belongsToMe;
   final Key key;
   final String userName;
+  final String userImage;
 
-  MessageBubble(this.message, this.userName, this.belongToMe, {this.key}): super(key: key);
+  MessageBubble(this.message,
+                this.userName,
+                this.userImage,
+                this.belongsToMe,
+                {this.key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: belongToMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+    return Stack(
       children: [
-        Container(
-          decoration: BoxDecoration(
-            color: belongToMe ? Colors.grey[300] : Theme.of(context).accentColor,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(12),
-              topRight: Radius.circular(12),
-              bottomLeft: belongToMe ? Radius.circular(12) : Radius.circular(0),
-              bottomRight: belongToMe ? Radius.circular(0) : Radius.circular(12),
+        Row(
+          mainAxisAlignment: belongsToMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: belongsToMe ? Colors.grey[300] : Theme.of(context).accentColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(12),
+                  bottomLeft: belongsToMe ? Radius.circular(12) : Radius.circular(0),
+                  bottomRight: belongsToMe ? Radius.circular(0) : Radius.circular(12),
+                ),
+              ),
+              width: 140,
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+              child: Column(
+                crossAxisAlignment: belongsToMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    userName,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: belongsToMe ? Colors.black : Theme.of(context).accentTextTheme.headline1.color,
+                    ),
+                  ),
+                  Text(
+                    message,
+                    style: TextStyle(
+                      color: belongsToMe ? Colors.black : Theme.of(context).accentTextTheme.headline1.color,
+                    ),
+                    textAlign: belongsToMe ? TextAlign.end : TextAlign.start,
+                  ),
+                ],
+              ),
+              margin: EdgeInsets.symmetric(vertical: 15, horizontal: 8),
             ),
+          ],
+        ),
+        Positioned(
+          top: 0,
+          left: belongsToMe ? null : 128,
+          right: belongsToMe ? 128: null,
+          child: CircleAvatar(
+            backgroundImage: NetworkImage(this.userImage),
           ),
-          width: 140,
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-          child: Column(
-            crossAxisAlignment: belongToMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-            children: [
-              Text(
-                userName,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: belongToMe ? Colors.black : Theme.of(context).accentTextTheme.headline1.color,
-                ),
-              ),
-              Text(
-                message,
-                style: TextStyle(
-                  color: belongToMe ? Colors.black : Theme.of(context).accentTextTheme.headline1.color,
-                ),
-                textAlign: belongToMe ? TextAlign.end : TextAlign.start,
-              ),
-            ],
-          ),
-          margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         ),
       ],
     );

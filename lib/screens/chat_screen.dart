@@ -9,33 +9,42 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter Chat'),
+        title: Text('Super Chat'),
         actions: [
-          DropdownButtonHideUnderline(
-            child: DropdownButton(
-              icon: Icon(
-                Icons.more_vert,
-                color: Theme.of(context).primaryIconTheme.color,
-              ),
-              items:[
-                DropdownMenuItem(
-                  value: 'logout',
-                  child: Container(
-                    child: Row(
-                      children: [
-                        Icon(Icons.exit_to_app),
-                        SizedBox(width: 8),
-                        Text('Sair'),
-                      ],
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 16),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton(
+                icon: Icon(
+                  Icons.more_vert,
+                  color: Theme.of(context).primaryIconTheme.color,
+                ),
+                items:[
+                  DropdownMenuItem(
+                    value: 'logout',
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.exit_to_app,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          SizedBox(width: 8),
+                          Text(
+                            'Sair',
+                            style: TextStyle(color: Theme.of(context).primaryColor),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-              )
-              ], 
-              onChanged: (item) {
-                if(item == 'logout') {
-                  FirebaseAuth.instance.signOut();
+                )
+                ],
+                onChanged: (item) {
+                  if(item == 'logout') {
+                    FirebaseAuth.instance.signOut();
+                  }
                 }
-              }
+              ),
             ),
           ),
         ],
