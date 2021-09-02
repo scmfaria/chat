@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class MessageBubble extends StatelessWidget {
@@ -31,7 +30,7 @@ class MessageBubble extends StatelessWidget {
                   bottomRight: belongsToMe ? Radius.circular(0) : Radius.circular(12),
                 ),
               ),
-              width: 140,
+              width: 180,
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
               child: Column(
                 crossAxisAlignment: belongsToMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
@@ -58,8 +57,8 @@ class MessageBubble extends StatelessWidget {
         ),
         Positioned(
           top: 0,
-          left: belongsToMe ? null : 128,
-          right: belongsToMe ? 128: null,
+          left: belongsToMe ? null : 160,
+          right: belongsToMe ? 160: null,
           child: CircleAvatar(
             backgroundImage: NetworkImage(this.userImage),
           ),
