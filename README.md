@@ -1,16 +1,16 @@
-# chat
+# Super Chat
 
-A new Flutter project.
+This is a Flutter project for Chat with people.
 
-## Getting Started
+In this application contains:
+- Firebase Auth using for APP Login
+- Firebase Storage for save picture of users
+- Firebase Messaging for Push Notifications
+- Cloud Firestore for save the messages and the users of APP.
 
-This project is a starting point for a Flutter application.
+## Some images:
+<img src="https://user-images.githubusercontent.com/23016117/131764098-4506af6f-bf14-4cf6-83a9-e0434df3881a.png" width="200" height="400"/>
+<img src="https://user-images.githubusercontent.com/23016117/131764091-3ce69514-bb8a-43d7-8e17-3ae1710aa873.png" width="200" height="400"/>
+<img src="https://user-images.githubusercontent.com/23016117/131764103-d40da150-1061-4fad-a62d-faca77600d6b.png" width="200" height="400"/>
+<img src="https://user-images.githubusercontent.com/23016117/131764101-e4d3c406-88cd-44e2-830e-0cf73cce7de3.png" width="200" height="400"/>
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
